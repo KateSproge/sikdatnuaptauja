@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffe6f2; /* Gaiši rozā fona krāsa */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #d147a3; /* Tumšāks rozā teksts */
+}
+
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border: 2px solid #ffa6c9; /* Rozā apmale */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    color: #d147a3; /* Tumšāks rozā teksts */
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ffa6c9; /* Rozā apmale */
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+input[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #ff80bf; /* Spilgti rozā poga */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #d147a3; /* Tumšāks rozā poga uz hover */
+}
+
+p {
+    text-align: center;
+    font-size: 16px;
+    color: #d147a3; /* Tumšāks rozā teksts */
+}
