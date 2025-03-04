@@ -12,6 +12,7 @@ const ipFile = "ips.txt";
 const cookieFile = "cookies_results.txt";
 
 // Funkcija, lai pārbaudītu, vai IP jau iesniedzis datus
+/*
 function hasSubmitted(ip) {
     if (fs.existsSync(ipFile)) {
         const ips = fs.readFileSync(ipFile, "utf8").split("\n");
@@ -19,15 +20,15 @@ function hasSubmitted(ip) {
     }
     return false;
 }
-
+*/
 // Endpoint aptaujas datu saglabāšanai
 app.post("/save", (req, res) => {
-    const userIP = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-
+    //const userIP = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+    /*
     if (hasSubmitted(userIP)) {
         return res.status(400).json({ message: "Jūs jau esat aizpildījis aptauju. Paldies!" });
     }
-
+*/
     const { vecums, vertesana, privatums, komentari } = req.body;
 
     if (!vecums || !vertesana || !privatums) {
@@ -38,7 +39,7 @@ app.post("/save", (req, res) => {
 
     try {
         fs.appendFileSync(resultsFile, data);
-        fs.appendFileSync(ipFile, userIP + "\n");
+        //fs.appendFileSync(ipFile, userIP + "\n");
         res.json({ message: "Paldies par dalību aptaujā!" });
     } catch (error) {
         res.status(500).json({ message: "Kļūda saglabājot datus!", error: error.message });
