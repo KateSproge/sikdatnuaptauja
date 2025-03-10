@@ -1,91 +1,103 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #ffe6f2; /* Gaiši rozā fona krāsa */
-    color: #333;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
-    text-align: center;
-    margin-top: 20px;
-    color: #d147a3; /* Tumšāks rozā teksts */
+  text-align: center;
+  margin-top: 20px;
+  color: #2c3e50;
 }
 
 form {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    border: 2px solid #ffa6c9; /* Rozā apmale */
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border: 2px solid #bdc3c7;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 8px;
-    color: #d147a3; /* Tumšāks rozā teksts */
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+  color: #2c3e50;
 }
 
-input[type="text"], textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ffa6c9; /* Rozā apmale */
-    border-radius: 4px;
-    box-sizing: border-box;
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
-input[type="radio"], input[type="checkbox"] {
-    margin-right: 8px;
+input[type="radio"],
+input[type="checkbox"] {
+  margin-right: 8px;
 }
 
-input[type="submit"] {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #ff80bf; /* Spilgti rozā poga */
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
+input[type="submit"],
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #34495e;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
 }
 
-input[type="submit"]:hover {
-    background-color: #d147a3; /* Tumšāks rozā poga uz hover */
+input[type="submit"]:hover,
+button:hover {
+  background-color: #2c3e50;
+  transform: scale(1.05);
 }
 
 p {
-    text-align: center;
-    font-size: 16px;
-    color: #d147a3; /* Tumšāks rozā teksts */
+  text-align: center;
+  font-size: 16px;
+  color: #2c3e50;
 }
 
 #cookie-popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    border: 1px solid #ffa6c9;
-    border-radius: 8px;
-    padding: 40px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 400px;
-    max-width: 90%;
-    text-align: center;
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 1px solid #bdc3c7;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
 }
 
 #cookie-popup button {
-    background-color: #d147a3;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 10px;
-    cursor: pointer;
-    margin-right: 5px;
+  background-color: #34495e;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  margin-right: 5px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#cookie-popup button:hover {
+  background-color: #2c3e50;
+  transform: scale(1.05);
 }
