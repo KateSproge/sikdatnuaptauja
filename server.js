@@ -1,70 +1,125 @@
 const express = require("express");
 const fs = require("fs");
 const cors = require("cors");
-const app = express();
-const PORT = 3000;
 
+const PORT = process.env.PORT || 3000;
+
+const app = express(); // ✅ Vispirms izveidojam 'app'
+
+app.use(cors({ origin: "*" })); // ✅ Pēc tam izmantojam cors
 app.use(express.json());
-app.use(cors()); // Atļauj pieprasījumus no cita domēna
+
+// Pārbaudīt, vai pieprasījums pienāk ar pareizo `Content-Type`
+app.use((req, res, next) => {
+    console.log("🔹 Headers:", req.headers);
+    console.log("🔹 Body:", req.body);
+    next();
+});
 
 const resultsFile = "results.txt";
-const ipFile = "ips.txt";
 const cookieFile = "cookies_results.txt";
 
-// Funkcija, lai pārbaudītu, vai IP jau iesniedzis datus
-/*
-function hasSubmitted(ip) {
-    if (fs.existsSync(ipFile)) {
-        const ips = fs.readFileSync(ipFile, "utf8").split("\n");
-        return ips.includes(ip);
+// Funkcija pārbauda, vai fails eksistē
+const ensureFileExists = (file) => {
+    if (!fs.existsSync(file)) {
+        fs.writeFileSync(file, "", { flag: "w" });
+        console.log(`📄 Izveidots fails: ${file}`);
     }
-    return false;
-}
-*/
-// Endpoint aptaujas datu saglabāšanai
+};
+
+ensureFileExists("results.txt");
+ensureFileExists("cookies_result.txt");
+
+ensureFileExists(resultsFile);
+ensureFileExists(cookieFile);
+
+// ✅ PAREIZI definēts "/save" maršruts
 app.post("/save", (req, res) => {
-    //const userIP = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-    /*
-    if (hasSubmitted(userIP)) {
-        return res.status(400).json({ message: "Jūs jau esat aizpildījis aptauju. Paldies!" });
+    if (!req.body) {
+        return res
+            .status(400)
+            .json({ message: "❌ Pieprasījumam trūkst datu!" });
     }
-*/
-    const { vecums, vertesana, privatums, komentari } = req.body;
+
+    const {
+        vecums,
+        izpratne,
+        vertesana,
+        attieksme,
+        privatums,
+        noluki,
+        kontrole,
+        informacija,
+        informacija_uznemumi,
+        preferences,
+        lasisana,
+        komentari,
+    } = req.body;
 
     if (!vecums || !vertesana || !privatums) {
-        return res.status(400).json({ message: "Trūkst nepieciešamo datu!" });
+        return res
+            .status(400)
+            .json({ message: "❌ Trūkst nepieciešamo datu!" });
     }
 
-    const data = `Vecums: ${vecums}\nVērtējums: ${vertesana}\nPrivātums: ${privatums}\nKomentāri: ${komentari || "Nav komentāru"}\n---\n`;
-
-    try {
-        fs.appendFileSync(resultsFile, data);
-        //fs.appendFileSync(ipFile, userIP + "\n");
-        res.json({ message: "Paldies par dalību aptaujā!" });
-    } catch (error) {
-        res.status(500).json({ message: "Kļūda saglabājot datus!", error: error.message });
+    const age = parseInt(vecums, 10);
+    if (isNaN(age) || age <= 0) {
+        return res
+            .status(400)
+            .json({ message: "❌ Vecumam jābūt pozitīvam skaitlim!" });
     }
+
+    const safeKomentari = komentari
+        ? komentari.replace(/(\r\n|\n|\r)/gm, " ")
+        : "Nav komentāru";
+
+    const surveyData = `${new Date().toISOString()};${age};${izpratne};${vertesana};${attieksme};${privatums};${noluki ? noluki.join(", ") : "Nav izvēles"};${kontrole};${informacija};${informacija_uznemumi};${preferences};${lasisana};"${safeKomentari}"\n`;
+
+    console.log("📩 Saglabāju aptaujas rezultātus...");
+
+    fs.appendFile("results.txt", surveyData, (err) => {
+        if (err) {
+            console.error("❌ Kļūda saglabājot aptauju:", err);
+            return res
+                .status(500)
+                .json({ message: "❌ Neizdevās saglabāt datus!" });
+        }
+        res.json({ message: "✅ Paldies par dalību aptaujā!" });
+    });
 });
 
-// Endpoint sīkdatņu izvēles saglabāšanai
+app.use((req, res, next) => {
+    console.log("📩 Saņemts pieprasījums:", req.method, req.url);
+    console.log("🔹 Headers:", req.headers);
+    console.log("🔹 Body:", req.body);
+    next();
+});
+
+// PAREIZI definēts "/cookies" maršruts
 app.post("/cookies", (req, res) => {
+    if (!req.body || !req.body.choice) {
+        return res.status(400).json({ message: "❌ Nepareiza izvēle!" });
+    }
+
     const { choice } = req.body;
-
-    if (!choice) {
-        return res.status(400).json({ message: "Trūkst izvēles datu!" });
+    if (choice !== "agree" && choice !== "decline") {
+        return res.status(400).json({ message: "❌ Nepareiza izvēle!" });
     }
 
-    const entry = `Choice: ${choice}\nIP: Simulated-IP\n---\n`;
+    console.log(`📩 Sīkdatņu izvēle: ${choice}`);
 
-    try {
-        fs.appendFileSync(cookieFile, entry);
-        res.json({ message: "Sīkdatņu izvēle saglabāta!" });
-    } catch (error) {
-        res.status(500).json({ message: "Kļūda saglabājot izvēli!", error: error.message });
-    }
+    fs.appendFile("cookies-result.txt", `Choice: ${choice}\n`, (err) => {
+        if (err) {
+            console.error("❌ Kļūda saglabājot sīkdatņu izvēli:", err);
+            return res
+                .status(500)
+                .json({ message: "❌ Kļūda saglabājot datus!" });
+        }
+        res.json({ message: "✅ Sīkdatņu izvēle saglabāta!" });
+    });
 });
 
-// Servera palaišana
+// Pareiza servera startēšana
 app.listen(PORT, () => {
-    console.log(`✅ Serveris darbojas: http://localhost:${PORT}`);
+    console.log(`✅ Serveris darbojas uz porta ${PORT}`);
 });
