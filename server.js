@@ -1,6 +1,6 @@
-const express = require("express");
-const fs = require("fs");
-const cors = require("cors");
+import express from "express";
+import fs from "fs";
+import cors from "cors";
 
 const PORT = process.env.PORT || 3000;
 
@@ -8,6 +8,11 @@ const app = express(); // ✅ Vispirms izveidojam 'app'
 
 app.use(cors({ origin: "*" })); // ✅ Pēc tam izmantojam cors
 app.use(express.json());
+
+app.listen(PORT, () => {
+    console.log(`✅ Serveris darbojas uz porta ${PORT}`);
+});
+
 
 // Pārbaudīt, vai pieprasījums pienāk ar pareizo `Content-Type`
 app.use((req, res, next) => {
