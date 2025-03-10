@@ -13,6 +13,10 @@ app.listen(PORT, () => {
     console.log(`✅ Serveris darbojas uz porta ${PORT}`);
 });
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 
 // Pārbaudīt, vai pieprasījums pienāk ar pareizo `Content-Type`
 app.use((req, res, next) => {
