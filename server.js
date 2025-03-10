@@ -2,7 +2,7 @@ import express from "express";
 import fs from "fs";
 import cors from "cors";
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 const app = express(); // ✅ Vispirms izveidojam 'app'
 
