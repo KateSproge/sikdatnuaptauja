@@ -127,4 +127,11 @@ app.post("/cookies", (req, res) => {
 // Pareiza servera startēšana
 app.listen(PORT, () => {
     console.log(`✅ Serveris darbojas uz porta ${PORT}`);
+}).on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+        console.error("❌ Ports jau tiek izmantots! Serveris netika palaists.");
+    } else {
+        console.error("❌ Nezināma kļūda:", err);
+    }
 });
+
